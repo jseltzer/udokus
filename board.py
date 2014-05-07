@@ -12,10 +12,13 @@ class Board():
             for val in row:
                 if val == 0:
                     hr += colour['red'] + '- ' + colour['end']
-                elif (j,i) == changes[-1]:
-                    hr += colour['green'] + str(val) + ' ' + colour['end']
-                elif (j,i) in changes:
-                    hr += colour['yellow'] + str(val) + ' ' + colour['end']
+                elif changes != []:
+                    if (j,i) == changes[-1]:
+                        hr += colour['green'] + str(val) + ' ' + colour['end']
+                    elif (j,i) in changes:
+                        hr += colour['yellow'] + str(val) + ' ' + colour['end']
+                    else:
+                        hr += str(val) + ' '
                 else:
                     hr += str(val) + ' '
                 j += 1

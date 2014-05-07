@@ -40,7 +40,8 @@ def solve(b: 'Board', anim: bool=False):
     if get_blanks(b) is None:
         raise Exception("board already solved!")
     print(b.__str__(solve_helper(b, anim)))
-    print('Solved board is legal!' if b._is_legal() else 'uh-oh')
+    print('Board is legal!' if b._is_legal() else 'uh-oh')
+    print('Board is solved!' if b._is_legal() else 'Solving incomplete.')
 
 def solve_helper(b: 'Board', anim: bool=False) -> list:
     changes = []
