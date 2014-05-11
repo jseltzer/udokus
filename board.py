@@ -1,6 +1,6 @@
 class Board():
-    def __init__(self: 'Board', rows: list):
-        self.rows = rows
+    def __init__(self: 'Board', rows: list=None):
+        self.rows = rows if rows else [[0 for i in range(9)] for i in range(9)]
 
     def __str__(self: 'Board', changes: list=[], div: bool=True) -> str:
         """Return human-readable board format."""
@@ -29,6 +29,12 @@ class Board():
                 hr += '\n' + '-'*21
             hr += '\n'
         return hr[:-1]
+
+    def __eq__(self: 'Board', other: 'Board') -> bool:
+        return self.rows == other.rows
+
+    def __repr__(self: 'Board') -> str:
+        return 'Board(' + repr(self.rows) + ')'
 
     def _is_well_defined(self: 'Board') -> bool:
         """Check for proper row amount and lengths."""
@@ -60,7 +66,7 @@ class Board():
 
     def get_vals(self: 'Board', rows: [list, list, ]) -> list:
         l = []
-        for row in self.rows:
+        for row in rows:
             [l.append(val) for val in row]
         return l
 
@@ -71,12 +77,22 @@ class Board():
     [6][7][8]
     """
 
-    def get_box(self: 'Board', id: int) -> list:
+    def get_box(self: 'Board', id: int, values: bool=False) -> list:
         l = []
         x = 3 * (id%3)
         y = 3 * (id//3)
-        [l.extend(self.rows[n][x:x+3]) for n in range(y,y+3)]
+        if values:
+            [l.extend(self.rows[n][x:x+3]) for n in range(y,y+3)]
+        else:
+            for j in range(3):
+                [l.append((j, n)) for n in range(y,y+3)]              
         return l
+
+    def get_box_vals(self: 'Board', id: int) -> list:
+        return self.get_box(id, True)
+
+    def get_box_cords(self: 'Board', id: int) -> list:
+        return self.get_box(id)
 
     def coords_to_box_id(self: 'Board', coords: (int, int)) -> int:
         return (coords[0]//3) + 3*(coords[1]//3)
